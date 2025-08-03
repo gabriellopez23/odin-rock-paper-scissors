@@ -12,11 +12,9 @@ body {
     background: rgb(0, 0, 0);
     height: 100vh;
 
-    padding: 10vh 0 0;
     display: flex;
     flex-direction: column;
-    justify-content: baseline;
-    gap: 4em;
+    justify-content: space-between;
 }
 
 button {
@@ -55,6 +53,9 @@ button {
     font-weight: bold;
 
     text-decoration: underline;
+
+    justify-content:center;
+    gap: 10vw;
 }
 
 #human-score,
@@ -86,10 +87,18 @@ button {
 
 #round-message {
     font-size: 32px;
+    width: 600px;
 }
 
 #result-message {
     font-size: 40px;
     font-style: italic;
+    
+    height: 60px;
+}
+
+.footer {
+    font-size: 18px;
+    padding: 0 0 24px;
 }
 

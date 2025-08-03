@@ -24,7 +24,7 @@ const isLoser = (humanChoice, computerChoice) =>
 /** UI Updates */
 const updateUiScores = (humanScore, computerScore) => {
   const humanScoreDiv = document.querySelector("#human-score");
-  humanScoreDiv.textContent = "PL1 Score: " + humanScore;
+  humanScoreDiv.textContent = "P1 Score: " + humanScore;
   
   const computerScoreDiv = document.querySelector("#computer-score");
   computerScoreDiv.textContent = "CPU Score: " + computerScore;
@@ -42,7 +42,7 @@ const updateUiResults = message => {
 /** Game methods */
 const getComputerChoice = () => {
   const choices = ['rock', 'paper', 'scissors']; 
-  const computerChoice = Math.round(Math.random() * 3);
+  const computerChoice = Math.floor(Math.random() * choices.length);
   return choices[computerChoice];
 }
 
