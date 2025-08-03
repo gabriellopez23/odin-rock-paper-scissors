@@ -34,6 +34,20 @@ const updateUiRounds = rounds => {
   document.querySelector("#rounds").textContent = "Round: " + rounds;
 };
 
+const updateUiSelections = (humanChoice, computerChoice) => {
+  const choiceToEmoji = {
+    'rock': '🪨', 
+    'paper': '📃', 
+    'scissors': '✂️',
+    'default': '❓' 
+  };
+
+  const humanSelection = document.querySelector("#human-selection");
+  humanSelection.textContent = choiceToEmoji[humanChoice];
+  const computerSelection = document.querySelector("#computer-selection");
+  computerSelection.textContent = choiceToEmoji[computerChoice];
+};
+
 const updateUiResults = message => {
   const results = document.querySelector("#result-message");
   results.textContent = message;
@@ -51,6 +65,7 @@ const resetGame = () => {
   updateUiScores(0, 0); // Reset scores UI
   updateUiRounds(0);
   updateUiResults("");
+  updateUiSelections("default", "default")
 
   const roundMessage = document.querySelector("#round-message");
   roundMessage.textContent = "Make your choice!";
@@ -76,7 +91,7 @@ function playRound(humanChoice, computerChoice) {
     resetGame();
     return;
   }
-
+  
   const roundMessage = document.querySelector("#round-message");
   if (isWinner(humanChoice, computerChoice)) { 
     roundMessage.textContent = `You win! ${toTitleCase(humanChoice)} beats ${computerChoice}`
@@ -88,7 +103,8 @@ function playRound(humanChoice, computerChoice) {
     roundMessage.textContent = `No winners. It's a tie!`;
   } 
   rounds++;
-
+  
+  updateUiSelections(humanChoice, computerChoice);
   updateUiRounds(rounds);
   updateUiScores(humanScore, computerScore);
 

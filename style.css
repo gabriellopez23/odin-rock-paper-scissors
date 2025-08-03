@@ -85,6 +85,31 @@ button {
     align-self: stretch;
 }
 
+.round-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2vw;
+}
+
+#human-selection,
+#computer-selection {
+    border: 6px dotted white;
+    border-radius: 20px;
+    padding: 8px;
+
+    font-size: 80px;
+}
+
+#human-selection {
+    background-color: rgb(50, 130, 107);
+}
+
+#computer-selection {
+    background-color: rgb(130, 50, 107);
+}
+
+
 #round-message {
     font-size: 32px;
     width: 600px;
