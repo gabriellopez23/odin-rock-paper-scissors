@@ -21,20 +21,42 @@ const isLoser = (humanChoice, computerChoice) =>
   humanChoice === 'paper' && computerChoice === 'scissors' ||
   humanChoice === 'scissors' && computerChoice === 'rock';
 
-const resetGame = () => humanScore = computerScore = rounds = 0;
-/*******************/
+/** UI Updates */
+const updateUiScores = (humanScore, computerScore) => {
+  const humanScoreDiv = document.querySelector("#human-score");
+  humanScoreDiv.textContent = "PL1 Score: " + humanScore;
+  
+  const computerScoreDiv = document.querySelector("#computer-score");
+  computerScoreDiv.textContent = "CPU Score: " + computerScore;
+};
 
-function getHumanChoice() {
-  const humanChoice = prompt("Enter your choice (rock, paper, scissors): ");
-  return humanChoice.toLowerCase();
-}
+const updateUiRounds = rounds => {
+  document.querySelector("#rounds").textContent = "Round: " + rounds;
+};
 
-function getComputerChoice() {
+const updateUiResults = message => {
+  const results = document.querySelector("#result-message");
+  results.textContent = message;
+};
+
+/** Game methods */
+const getComputerChoice = () => {
   const choices = ['rock', 'paper', 'scissors']; 
   const computerChoice = Math.round(Math.random() * 3);
   return choices[computerChoice];
 }
 
+const resetGame = () => {
+  humanScore = computerScore = rounds = 0;
+  updateUiScores(0, 0); // Reset scores UI
+  updateUiRounds(0);
+  updateUiResults("");
+
+  const roundMessage = document.querySelector("#round-message");
+  roundMessage.textContent = "Make your choice!";
+};
+
+/** Event Listeners */
 const rockButton = document.querySelector("#rock-button");
 rockButton.onclick = () => playRound('rock', getComputerChoice());
 
@@ -44,13 +66,18 @@ paperButton.onclick = () => playRound('paper', getComputerChoice());
 const scissorsButton = document.querySelector("#scissors-button");
 scissorsButton.onclick = () => playRound('scissors', getComputerChoice());
 
+/** Data */
 let humanScore = 0;
 let computerScore = 0;
 let rounds = 0
 
 function playRound(humanChoice, computerChoice) {
-  const roundMessage = document.querySelector("#round-message");
+  if (rounds === 5) {
+    resetGame();
+    return;
+  }
 
+  const roundMessage = document.querySelector("#round-message");
   if (isWinner(humanChoice, computerChoice)) { 
     roundMessage.textContent = `You win! ${toTitleCase(humanChoice)} beats ${computerChoice}`
     humanScore++;
@@ -62,21 +89,13 @@ function playRound(humanChoice, computerChoice) {
   } 
   rounds++;
 
-  const humanScoreDiv = document.querySelector("#human-score");
-  humanScoreDiv.textContent = "Human Score: " + humanScore;
-
-  const computerScoreDiv = document.querySelector("#computer-score");
-  computerScoreDiv.textContent = "Computer Score: " + computerScore;
-
-  const roundsDiv = document.querySelector("#rounds");
-  roundsDiv.textContent = "Round: " + rounds;
+  updateUiRounds(rounds);
+  updateUiScores(humanScore, computerScore);
 
   // Print results
-  const resultMessage = document.querySelector("#result-message");
-  if (rounds >= 5) {
-    resultMessage.textContent = getResultMessage(humanScore, computerScore);
-    resetGame();
+  if (rounds === 5) {
+    updateUiResults(getResultMessage(humanScore, computerScore));
   } else {
-    resultMessage.textContent = "";
+    updateUiResults("");
   }
 }
