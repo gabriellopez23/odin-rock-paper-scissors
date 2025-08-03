@@ -3,11 +3,11 @@ const toTitleCase = str => str[0].toUpperCase() + str.substring(1);
 
 const getResultMessage = (humanScore, computerScore) => {
   if (humanScore > computerScore) {
-    return "You win!";
+    return "You win the game!";
   } else if (humanScore < computerScore) {
-    return "You lose!";
+    return "You lose the game!";
   } else {
-    return "It's a tie!";
+    return "The game is a tie!";
   }
 };
 
