@@ -20,6 +20,8 @@ const isLoser = (humanChoice, computerChoice) =>
   humanChoice === 'rock' && computerChoice === 'paper' ||
   humanChoice === 'paper' && computerChoice === 'scissors' ||
   humanChoice === 'scissors' && computerChoice === 'rock';
+
+const resetGame = () => humanScore = computerScore = rounds = 0;
 /*******************/
 
 function getHumanChoice() {
@@ -33,27 +35,48 @@ function getComputerChoice() {
   return choices[computerChoice];
 }
 
-function playGame() {
-  let humanScore = 0;
-  let computerScore = 0;
+const rockButton = document.querySelector("#rock-button");
+rockButton.onclick = () => playRound('rock', getComputerChoice());
 
-  function playRound(humanChoice, computerChoice) {
-    if (isWinner(humanChoice, computerChoice)) { 
-      console.log(`You win! ${toTitleCase(humanChoice)} beats ${computerChoice}`);
-      humanScore++;
-    } else if (isLoser(humanChoice, computerChoice)) {
-      console.log(`You lose! ${toTitleCase(computerChoice)} beats ${humanChoice}`);
-      computerScore++;
-    } else {
-      console.log(`No winners. It's a tie!`)
-    } 
-  }
+const paperButton = document.querySelector("#paper-button");
+paperButton.onclick = () => playRound('paper', getComputerChoice());
 
-  const ROUNDS = 5;
-  for (let i = 0; i < ROUNDS; i++) {
-    playRound(getHumanChoice(), getComputerChoice())
-  }
-  
+const scissorsButton = document.querySelector("#scissors-button");
+scissorsButton.onclick = () => playRound('scissors', getComputerChoice());
+
+let humanScore = 0;
+let computerScore = 0;
+let rounds = 0
+
+function playRound(humanChoice, computerChoice) {
+  const roundMessage = document.querySelector("#round-message");
+
+  if (isWinner(humanChoice, computerChoice)) { 
+    roundMessage.textContent = `You win! ${toTitleCase(humanChoice)} beats ${computerChoice}`
+    humanScore++;
+  } else if (isLoser(humanChoice, computerChoice)) {
+    roundMessage.textContent = `You lose! ${toTitleCase(computerChoice)} beats ${humanChoice}`
+    computerScore++;
+  } else {
+    roundMessage.textContent = `No winners. It's a tie!`;
+  } 
+  rounds++;
+
+  const humanScoreDiv = document.querySelector("#human-score");
+  humanScoreDiv.textContent = "Human Score: " + humanScore;
+
+  const computerScoreDiv = document.querySelector("#computer-score");
+  computerScoreDiv.textContent = "Computer Score: " + computerScore;
+
+  const roundsDiv = document.querySelector("#rounds");
+  roundsDiv.textContent = "Round: " + rounds;
+
   // Print results
-  console.log(getResultMessage(humanScore, computerScore));
+  const resultMessage = document.querySelector("#result-message");
+  if (rounds >= 5) {
+    resultMessage.textContent = getResultMessage(humanScore, computerScore);
+    resetGame();
+  } else {
+    resultMessage.textContent = "";
+  }
 }
